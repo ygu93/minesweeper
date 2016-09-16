@@ -35,7 +35,7 @@ class Board
 
   def chain_reveal(pos)
     self[pos].reveal
-    valid_neighbors = neighbors(pos).reject { |pos| self[pos].value > 0 }
+    valid_neighbors = neighbors(pos).reject { |pos| self[pos].is_revealed? }
     return if valid_neighbors.any? { |pos| self[pos].is_bomb? }
     valid_neighbors.each do |pos|
       chain_reveal(pos)
@@ -57,7 +57,7 @@ class Board
     grid = Array.new(9) { Array.new(9) { Tile.new } }
     index_numbers = (0..8).to_a
     all_coordinates = index_numbers.product(index_numbers)
-    @bomb_coordinates = all_coordinates.sample(5)
+    @bomb_coordinates = all_coordinates.sample(10)
     @bomb_coordinates.each do |pos|
       grid[pos.first][pos.last].set_bomb
     end
