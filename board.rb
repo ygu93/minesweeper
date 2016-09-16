@@ -19,8 +19,10 @@ class Board
     @grid.each_with_index do |row, i|
       print "#{i} "
       row.each do |tile|
-        if tile.is_bomb? && tile.is_revealed?
+        if tile.is_revealed? && tile.is_bomb?
           print "* ".red
+        elsif tile.is_flagged?
+          print "F ".yellow
         elsif tile.is_revealed?
           print "#{tile.value} "
         else

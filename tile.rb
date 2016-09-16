@@ -22,6 +22,10 @@ class Tile
     @revealed
   end
 
+  def is_flagged?
+    @flagged
+  end
+
   def reveal
     @revealed = true unless @flagged
   end
@@ -33,4 +37,5 @@ class Tile
   def increase_value
     @value += 1
   end
+
 end
