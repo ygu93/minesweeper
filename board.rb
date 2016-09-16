@@ -33,13 +33,31 @@ class Board
     end
   end
 
+  def chain_reveal(pos)
+    self[pos].reveal
+    valid_neighbors = neighbors(pos).reject { |pos| self[pos].value > 0 }
+    return if valid_neighbors.any? { |pos| self[pos].is_bomb? }
+    valid_neighbors.each do |pos|
+      chain_reveal(pos)
+    end
+    # return if self[pos].value > 0
+    # valid_neighbors = neighbors(pos).reject {|pos| self[pos].is_bomb? || self[pos].is_revealed?}
+    # valid_neighbors.each do |pos|
+    #   chain_reveal(pos)
+    # end
+    # valid_neighbors = neighbors(pos).reject do |pos|
+    #   self[pos].is_bomb? || self[pos].is_revealed?
+    # end
+    # self[pos].reveal
+  end
+
   private
 
   def generate_grid
     grid = Array.new(9) { Array.new(9) { Tile.new } }
     index_numbers = (0..8).to_a
     all_coordinates = index_numbers.product(index_numbers)
-    @bomb_coordinates = all_coordinates.sample(10)
+    @bomb_coordinates = all_coordinates.sample(5)
     @bomb_coordinates.each do |pos|
       grid[pos.first][pos.last].set_bomb
     end
@@ -48,7 +66,7 @@ class Board
 
   def generate_fringe_values
     @bomb_coordinates.each do |pos|
-      neighbors(pos).each { |neighbor| neighbor.increase_value }
+      neighbors(pos).each { |pos| self[pos].increase_value }
     end
   end
 
@@ -62,6 +80,6 @@ class Board
       range = (0..8).to_a
       !(range.include?(pos.first) && range.include?(pos.last))
     end
-    result.map { |pos| self[pos] }
+    result
   end
 end

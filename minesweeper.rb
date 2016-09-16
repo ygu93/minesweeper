@@ -25,7 +25,8 @@ class Minesweeper
 
   def make_move(pos, action)
     if action == "r"
-      @board[pos].reveal
+      #@board[pos].reveal
+      @board.chain_reveal(pos)
     else
       @board[pos].toggle_flag
     end
