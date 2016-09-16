@@ -3,7 +3,7 @@ require_relative 'player'
 
 class Minesweeper
 
-  def initialize(board = Board.generate_grid, player = Player.generate)
+  def initialize(board = Board.new, player = Player.generate)
     @board = board
     @player = player
   end
@@ -16,7 +16,22 @@ class Minesweeper
       coordinates = @player.get_coordinates
       puts "Would you like to flag or reveal?: (r/f)"
       choice = @player.get_choice
+      make_move(coordinates, choice)
+      system("clear")
+    end
+  end
+
+  private
+
+  def make_move(pos, action)
+    if action == "r"
+      @board[pos].reveal
+    else
+      @board[pos].toggle_flag
     end
   end
 
 end
+
+game = Minesweeper.new
+game.run

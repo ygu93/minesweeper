@@ -6,6 +6,10 @@ class Tile
     @revealed = revealed
   end
 
+  def value
+    @value
+  end
+
   def set_bomb
     @bomb = true
   end
@@ -18,4 +22,15 @@ class Tile
     @revealed
   end
 
+  def reveal
+    @revealed = true unless @flagged
+  end
+
+  def toggle_flag
+    @flagged = !@flagged
+  end
+
+  def increase_value
+    @value += 1
+  end
 end

@@ -10,7 +10,7 @@ class Player
   end
 
   def get_coordinates
-    position = gets.chomp
+    position = gets.chomp.split(",").map { |el| Integer(el) }
   end
 
   def get_choice
