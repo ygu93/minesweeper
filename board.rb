@@ -22,15 +22,38 @@ class Board
         if tile.is_revealed? && tile.is_bomb?
           print "* ".red
         elsif tile.is_flagged?
-          print "F ".yellow
-        elsif tile.is_revealed?
-          print "#{tile.value} "
-        else
+          print "F ".red
+        elsif tile.is_revealed? && tile.value == 1
+          print "#{tile.value} ".blue
+        elsif tile.is_revealed? && tile.value > 1
+          print "#{tile.value} ".green
+        elsif tile.is_revealed? && tile.value == 0
           print "□ "
+        else
+          print "■ "
         end
       end
       print "\n"
     end
+  end
+
+
+  def won?
+    @grid.each do |row|
+      row.each do |tile|
+        return false if tile.is_revealed? == false && tile.is_bomb? == false
+      end
+    end
+    true
+  end
+
+  def lost?
+    @grid.each do |row|
+      row.each do |tile|
+        return true if tile.is_revealed? == true && tile.is_bomb?
+      end
+    end
+    false
   end
 
   def chain_reveal(pos)
@@ -40,15 +63,6 @@ class Board
     valid_neighbors.each do |pos|
       chain_reveal(pos)
     end
-    # return if self[pos].value > 0
-    # valid_neighbors = neighbors(pos).reject {|pos| self[pos].is_bomb? || self[pos].is_revealed?}
-    # valid_neighbors.each do |pos|
-    #   chain_reveal(pos)
-    # end
-    # valid_neighbors = neighbors(pos).reject do |pos|
-    #   self[pos].is_bomb? || self[pos].is_revealed?
-    # end
-    # self[pos].reveal
   end
 
   private

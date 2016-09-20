@@ -17,6 +17,17 @@ class Minesweeper
       puts "Would you like to flag or reveal?: (r/f)"
       choice = @player.get_choice
       make_move(coordinates, choice)
+      if @board.won?
+        running = false
+        @board.render
+        puts "Congratulations, you won!"
+        sleep(5)
+      elsif @board.lost?
+        running = false
+        @board.render
+        puts "You lose!"
+        sleep(5)
+      end
       system("clear")
     end
   end
@@ -25,12 +36,13 @@ class Minesweeper
 
   def make_move(pos, action)
     if action == "r"
-      #@board[pos].reveal
       @board.chain_reveal(pos)
-    else
+    elsif action == "f"
       @board[pos].toggle_flag
     end
   end
+
+
 
 end
 
